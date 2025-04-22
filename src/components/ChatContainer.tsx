@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 import ThemeToggle from './ThemeToggle';
@@ -31,7 +31,7 @@ const ChatContainer: React.FC = () => {
     messages
   } = useChat();
   const hasSelectedSubject = useSelector((state: RootState) => state.chat.hasSelectedSubject);
-  const { currentChatBackgroundColor } = useThemeContext();
+  const { } = useThemeContext();
   const [showPersonaDropdown, setShowPersonaDropdown] = useState(false);
   const [showSwitchWarning, setShowSwitchWarning] = useState(false);
   const [pendingPersona, setPendingPersona] = useState<AIPersona | null>(null);

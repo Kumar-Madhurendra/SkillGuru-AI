@@ -15,7 +15,7 @@ export const ThemeContext = createContext<{
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ 
   children 
 }) => {
-  const { currentTheme, isDarkMode, toggle, currentChatBackgroundColor } = useTheme();
+  const { isDarkMode, toggle, currentChatBackgroundColor } = useTheme();
 
   // Apply theme class to document
   useEffect(() => {

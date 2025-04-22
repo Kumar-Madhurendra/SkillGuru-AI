@@ -8,7 +8,7 @@ import { RootState } from '../store/store';
 const MessageInput: React.FC = () => {
   const [input, setInput] = useState('');
   const { sendMessage, isAITyping } = useChat();
-  const { isDarkMode } = useThemeContext();
+  const { } = useThemeContext();
   const hasSelectedSubject = useSelector((state: RootState) => state.chat.hasSelectedSubject);
 
   const handleSubmit = (e: FormEvent) => {
