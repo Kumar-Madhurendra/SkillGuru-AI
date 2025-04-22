@@ -11,7 +11,8 @@ export interface Message {
 
 export interface ChatState {
   messages: Message[];
-  activePersona: AIPersona;
+  activePersona: AIPersona | null;
   isAITyping: boolean;
   error: string | null;
+  hasSelectedSubject: boolean;
 }

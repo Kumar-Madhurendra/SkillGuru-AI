@@ -1,54 +1,123 @@
-# React + TypeScript + Vite
+# Auro Education AI Chat Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This application provides an AI chat interface powered by Google's Gemini API. Users can interact with the AI assistant for educational purposes, ask questions, and receive AI-generated responses.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- Interactive chat interface with AI assistance
+- Support for markdown and code formatting in responses
+- Real-time typing indicators
+- Secure API key management
+- Fallback offline responses when API is unavailable
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn package manager
+- Google Gemini API key
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/auro.edu.git
+cd auro.edu
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
 ```
+
+3. Set up your API key:
+   - The application uses a default API key for development purposes
+   - For production, create a `.env` file with `VITE_GEMINI_API_KEY=your_api_key_here`
+
+### Running the Application
+
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+The application will be available at `http://localhost:5173` in your browser.
+
+## API Configuration
+
+The application uses Google's Gemini API. Configuration settings are available in `src/utils/config.ts`.
+
+### API Key Setup
+
+For development, a default API key is provided. For production use:
+
+1. Create a `.env` file in the root directory
+2. Add your Gemini API key as `VITE_GEMINI_API_KEY=your_api_key_here`
+3. The config.ts file is set up to use this environment variable
+
+```typescript
+// Example of secure production configuration
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || DEFAULT_API_KEY;
+```
+
+### API Endpoints
+
+The application is configured to use the Gemini 1.5 Flash model:
+```
+https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent
+```
+
+## Deployment
+
+### Deploying to Netlify
+
+1. Push your code to a GitHub repository
+
+2. In Netlify Dashboard:
+   - Create a new site from GitHub
+   - Select your repository
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+   - Add environment variable `VITE_GEMINI_API_KEY` with your API key
+
+3. For SPA routing, the project includes a `netlify.toml` file with the necessary redirect rules
+
+4. Advanced Settings:
+   - Set Node.js version to 20 if needed for React 19 compatibility
+
+### Troubleshooting Deployment
+
+If deployment fails:
+- Check Netlify build logs for specific errors
+- Ensure environment variables are correctly set
+- Verify Node.js version compatibility (project uses React 19)
+- Make sure there are no TypeScript errors that would prevent compilation
+
+## Architecture
+
+- `src/components/` - React components for the UI
+- `src/hooks/` - Custom React hooks including the useChat hook
+- `src/utils/` - Utility functions including API communication
+- `src/types/` - TypeScript type definitions
+
+## Security Considerations
+
+- API keys should not be exposed in client-side code for production applications
+- The current implementation is for demonstration purposes only
+- In a production environment, API requests should be proxied through a secure backend
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Google Generative AI for providing the Gemini API
+- React team for the framework
+- TypeScript team for the type system

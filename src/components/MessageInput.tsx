@@ -2,19 +2,29 @@ import React, { useState, FormEvent } from 'react';
 import useChat from '../hooks/useChat';
 import { motion } from 'framer-motion';
 import { useThemeContext } from './ThemeProvider';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 const MessageInput: React.FC = () => {
   const [input, setInput] = useState('');
   const { sendMessage, isAITyping } = useChat();
   const { isDarkMode } = useThemeContext();
+  const hasSelectedSubject = useSelector((state: RootState) => state.chat.hasSelectedSubject);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    if (!input.trim() || !hasSelectedSubject) return;
 
     sendMessage(input);
     setInput('');
   };
+
+  // Determine placeholder text based on state
+  const getPlaceholderText = () => {
+    if (!hasSelectedSubject) return "Please select a subject to start chatting...";
+    if (isAITyping) return "AI is typing...";
+    return "Type your message...";
+  }
 
   return (
     <motion.div
@@ -29,10 +39,10 @@ const MessageInput: React.FC = () => {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="w-full px-5 py-3.5 pr-12 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors shadow-sm"
-            placeholder={isAITyping ? "AI is typing..." : "Type your message..."}
+            className={`w-full px-5 py-3.5 pr-12 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors shadow-sm ${!hasSelectedSubject ? 'cursor-not-allowed opacity-75' : ''}`}
+            placeholder={getPlaceholderText()}
             aria-label="Message input"
-            disabled={isAITyping}
+            disabled={isAITyping || !hasSelectedSubject}
           />
           {isAITyping && (
             <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
@@ -46,12 +56,12 @@ const MessageInput: React.FC = () => {
         </div>
         <motion.button
           type="submit"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className={`p-3.5 ${input.trim() ? 'bg-gradient-to-r from-blue-500 to-blue-600' : 'bg-gray-400 dark:bg-gray-600'} text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-70 disabled:cursor-not-allowed transition-all shadow-md`}
-          disabled={!input.trim() || isAITyping}
+          whileHover={{ scale: hasSelectedSubject && input.trim() ? 1.05 : 1 }}
+          whileTap={{ scale: hasSelectedSubject && input.trim() ? 0.95 : 1 }}
+          className={`p-3.5 ${hasSelectedSubject && input.trim() ? 'bg-gradient-to-r from-blue-500 to-blue-600' : 'bg-gray-400 dark:bg-gray-600'} text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-70 disabled:cursor-not-allowed transition-all shadow-md`}
+          disabled={!input.trim() || isAITyping || !hasSelectedSubject}
           style={{
-            boxShadow: input.trim() && !isAITyping
+            boxShadow: hasSelectedSubject && input.trim() && !isAITyping
               ? '0 4px 14px rgba(59, 130, 246, 0.3)'
               : '0 4px 6px rgba(0, 0, 0, 0.1)'
           }}

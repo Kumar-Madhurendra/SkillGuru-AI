@@ -6,7 +6,7 @@ import typingAnimation from '../assets/typing-animation.json';
 import { useThemeContext } from './ThemeProvider';
 
 const MessageList: React.FC = () => {
-  const { messages, isAITyping, activePersona } = useChat();
+  const { messages, isAITyping, activePersona, hasSelectedSubject } = useChat();
   const { currentChatBackgroundColor, isDarkMode } = useThemeContext();
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -37,11 +37,18 @@ const MessageList: React.FC = () => {
       'Coding Coach': '💻',
     };
 
-    return personaIcons[activePersona] || '🤖';
+    return personaIcons[activePersona || ''] || '🤖';
   };
 
   // Get welcome message content based on active persona
   const getWelcomeContent = () => {
+    if (!activePersona || !hasSelectedSubject) {
+      return {
+        title: 'Welcome to AI Educational Chat',
+        description: 'Please select a subject to start your educational journey.'
+      };
+    }
+
     const personaContent: Record<string, { title: string, description: string }> = {
       'General Tutor': {
         title: 'Hello! I\'m Your AI Assistant',
@@ -71,14 +78,23 @@ const MessageList: React.FC = () => {
     return (
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md mx-auto">
-          <div className="text-4xl mb-3 text-center">{getAIIcon()}</div>
+          {hasSelectedSubject && activePersona && (
+            <div className="text-4xl mb-3 text-center">{getAIIcon()}</div>
+          )}
           <h2 className="text-2xl font-bold mb-3 text-gray-800 dark:text-white text-center">{content.title}</h2>
           <p className="text-gray-600 dark:text-gray-300 mb-3 text-center">
             {content.description}
           </p>
-          <p className="text-sm text-blue-600 dark:text-blue-400 text-center">
-            I'll respond with informative and helpful answers to assist your learning.
-          </p>
+          {hasSelectedSubject && activePersona && (
+            <p className="text-sm text-blue-600 dark:text-blue-400 text-center">
+              I'll respond with informative and helpful answers to assist your learning.
+            </p>
+          )}
+          {!hasSelectedSubject && (
+            <p className="text-sm text-blue-600 dark:text-blue-400 text-center">
+              Click the "Select Subject" button in the top right corner to get started.
+            </p>
+          )}
         </div>
       </div>
     );
@@ -199,7 +215,7 @@ const MessageList: React.FC = () => {
                 <div 
                   className="text-xs mt-1 text-gray-500 dark:text-gray-400 text-left ml-1"
                 >
-                  AI is typing...
+                  typing...
                 </div>
               </div>
             </motion.div>

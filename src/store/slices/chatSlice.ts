@@ -4,9 +4,10 @@ import { generateMessageId } from '../../utils/chatUtils';
 
 const initialState: ChatState = {
   messages: [],
-  activePersona: 'General Tutor',
+  activePersona: null,
   isAITyping: false,
   error: null,
+  hasSelectedSubject: false,
 };
 
 const chatSlice = createSlice({
@@ -71,7 +72,12 @@ const chatSlice = createSlice({
     },
     
     setActivePersona: (state, action: PayloadAction<AIPersona>) => {
+      // Only clear messages if the persona is changing and not the initial selection
+      if (state.activePersona !== action.payload && state.activePersona !== null) {
+        state.messages = [];
+      }
       state.activePersona = action.payload;
+      state.hasSelectedSubject = true; // Mark that subject has been selected
     },
     
     clearMessages: (state) => {

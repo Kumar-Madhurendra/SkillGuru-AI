@@ -14,7 +14,7 @@ import API_CONFIG from '../utils/config';
 
 export const useChat = () => {
   const dispatch = useDispatch();
-  const { messages, activePersona, isAITyping, error } = useSelector((state: RootState) => state.chat);
+  const { messages, activePersona, isAITyping, error, hasSelectedSubject } = useSelector((state: RootState) => state.chat);
   const lastMessageIdRef = useRef('');
   const [useApi, setUseApi] = useState(true); // Set to true by default
   const [showApiConfig, setShowApiConfig] = useState(false);
@@ -29,7 +29,7 @@ export const useChat = () => {
   }, []);
 
   const sendMessage = useCallback(async (text: string) => {
-    if (!text.trim()) return;
+    if (!text.trim() || !activePersona || !hasSelectedSubject) return;
 
     try {
       // Add user message
@@ -96,7 +96,7 @@ export const useChat = () => {
     } finally {
       dispatch(setAITypingStatus(false));
     }
-  }, [dispatch, activePersona, messages, error, useApi]);
+  }, [dispatch, activePersona, messages, error, useApi, hasSelectedSubject]);
 
   const clearChat = useCallback(() => {
     dispatch(clearMessages());
@@ -114,6 +114,7 @@ export const useChat = () => {
     activePersona,
     isAITyping,
     error,
+    hasSelectedSubject,
     sendMessage,
     clearChat,
     useApi,
