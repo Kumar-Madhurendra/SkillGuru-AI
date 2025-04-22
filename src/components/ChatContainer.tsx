@@ -93,46 +93,51 @@ const ChatContainer: React.FC = () => {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.3 }}
-        className="w-full bg-white dark:bg-gray-800 shadow-lg p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center flex-shrink-0"
+        className="w-full bg-white dark:bg-gray-800 shadow-lg p-3 sm:p-4 border-b border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row justify-between items-center flex-shrink-0 gap-3 sm:gap-0"
       >
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto justify-between sm:justify-start">
           <div className="flex items-center">
-            <span className="text-blue-600 dark:text-blue-400 text-2xl mr-2">🧠</span>
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white">AI Educational Chat</h1>
+            <span className="text-blue-600 dark:text-blue-400 text-xl sm:text-2xl mr-2">🧠</span>
+            <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">AI Educational Chat</h1>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex sm:hidden">
+            <ThemeToggle />
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between">
+          <div className="flex items-center gap-2 flex-1 sm:flex-auto">
             <button 
               onClick={clearChat}
-              className="text-sm px-3 py-1 text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 border border-gray-300 dark:border-gray-600 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              className="text-xs sm:text-sm px-2 sm:px-3 py-1 text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 border border-gray-300 dark:border-gray-600 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               Clear Chat
             </button>
             <div 
-              className={`text-sm px-3 py-1 rounded-full transition-colors ${
+              className={`text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full transition-colors ${
                 useApi 
                 ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 border border-green-300 dark:border-green-700'
                 : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600'
               }`}
             >
               <div className="flex items-center gap-1">
-                <div className={`w-2 h-2 rounded-full ${useApi ? 'bg-green-500' : 'bg-gray-400'}`}></div>
+                <div className={`w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full ${useApi ? 'bg-green-500' : 'bg-gray-400'}`}></div>
                 <span>{useApi ? 'API Active' : 'API Inactive'}</span>
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex items-center gap-3">
+          
           {/* Persona Selector Dropdown */}
           <div className="relative">
             <button
               onClick={() => setShowPersonaDropdown(!showPersonaDropdown)}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors ${activePersona ? getPersonaColorClass() : 'bg-gray-100 dark:bg-gray-700'}`}
+              className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full transition-colors ${activePersona ? getPersonaColorClass() : 'bg-gray-100 dark:bg-gray-700'}`}
             >
-              <span className="text-lg">{activePersona ? getCurrentPersona().icon : '📚'}</span>
-              <span className="text-sm font-medium">{activePersona ? getCurrentPersona().name : 'Select Subject'}</span>
+              <span className="text-base sm:text-lg">{activePersona ? getCurrentPersona().icon : '📚'}</span>
+              <span className="text-xs sm:text-sm font-medium">{activePersona ? getCurrentPersona().name : 'Select Subject'}</span>
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
-                className={`h-4 w-4 transition-transform duration-200 ${showPersonaDropdown ? 'rotate-180' : ''}`} 
+                className={`h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-200 ${showPersonaDropdown ? 'rotate-180' : ''}`} 
                 viewBox="0 0 20 20" 
                 fill="currentColor"
               >
@@ -171,7 +176,9 @@ const ChatContainer: React.FC = () => {
             )}
           </div>
           
-          <ThemeToggle />
+          <div className="hidden sm:flex">
+            <ThemeToggle />
+          </div>
         </div>
       </motion.div>
 
@@ -197,29 +204,29 @@ const ChatContainer: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 max-w-md w-full"
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 sm:p-6 max-w-md w-full mx-4"
               >
                 <div className="flex items-center mb-4 text-amber-500">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                   </svg>
-                  <h3 className="text-lg font-bold">Switch Subject?</h3>
+                  <h3 className="text-base sm:text-lg font-bold">Switch Subject?</h3>
                 </div>
                 
-                <p className="text-gray-700 dark:text-gray-300 mb-4">
+                <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-4">
                   Switching to <span className="font-bold">{pendingPersona}</span> will clear your current conversation history. Are you sure you want to continue?
                 </p>
                 
                 <div className="flex justify-end gap-2">
                   <button
                     onClick={cancelPersonaSwitch}
-                    className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                    className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={confirmPersonaSwitch}
-                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   >
                     Switch & Clear Chat
                   </button>

@@ -76,22 +76,22 @@ const MessageList: React.FC = () => {
     const content = getWelcomeContent();
     
     return (
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md mx-auto">
+      <div className="absolute inset-0 flex items-center justify-center px-4">
+        <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-lg max-w-md mx-auto">
           {hasSelectedSubject && activePersona && (
-            <div className="text-4xl mb-3 text-center">{getAIIcon()}</div>
+            <div className="text-3xl sm:text-4xl mb-3 text-center">{getAIIcon()}</div>
           )}
-          <h2 className="text-2xl font-bold mb-3 text-gray-800 dark:text-white text-center">{content.title}</h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-3 text-center">
+          <h2 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-gray-800 dark:text-white text-center">{content.title}</h2>
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3 text-center">
             {content.description}
           </p>
           {hasSelectedSubject && activePersona && (
-            <p className="text-sm text-blue-600 dark:text-blue-400 text-center">
+            <p className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 text-center">
               I'll respond with informative and helpful answers to assist your learning.
             </p>
           )}
           {!hasSelectedSubject && (
-            <p className="text-sm text-blue-600 dark:text-blue-400 text-center">
+            <p className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 text-center">
               Click the "Select Subject" button in the top right corner to get started.
             </p>
           )}
@@ -112,7 +112,7 @@ const MessageList: React.FC = () => {
       {messages.length === 0 ? (
         <WelcomeMessage />
       ) : (
-        <div className="flex flex-col space-y-5 py-6 px-6 md:px-10 lg:px-16 max-w-6xl mx-auto w-full">
+        <div className="flex flex-col space-y-4 sm:space-y-5 py-4 sm:py-6 px-3 sm:px-6 md:px-10 lg:px-16 max-w-6xl mx-auto w-full">
           {messages.map((message) => (
             <motion.div
               key={message.id}
@@ -125,7 +125,7 @@ const MessageList: React.FC = () => {
             >
               {/* Message avatar */}
               <div 
-                className={`flex-shrink-0 flex items-center justify-center h-9 w-9 rounded-full ${
+                className={`flex-shrink-0 flex items-center justify-center h-8 w-8 sm:h-9 sm:w-9 rounded-full ${
                   message.sender === 'user' 
                     ? 'bg-blue-100 text-blue-600 dark:bg-blue-800 dark:text-blue-200' 
                     : 'bg-indigo-100 text-indigo-600 dark:bg-indigo-900 dark:text-indigo-200'
@@ -136,15 +136,15 @@ const MessageList: React.FC = () => {
                 }`}
               >
                 {message.sender === 'user' ? (
-                  <span className="text-base">👤</span>
+                  <span className="text-sm sm:text-base">👤</span>
                 ) : (
-                  <span className="text-base">{getAIIcon()}</span>
+                  <span className="text-sm sm:text-base">{getAIIcon()}</span>
                 )}
               </div>
               
-              <div className="flex flex-col max-w-[85%]">
+              <div className="flex flex-col max-w-[80%] sm:max-w-[85%]">
                 <div 
-                  className={`relative rounded-2xl p-4 shadow-md ${
+                  className={`relative rounded-2xl p-3 sm:p-4 shadow-md ${
                     message.sender === 'user'
                       ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-br-md ml-auto'
                       : isDarkMode 
@@ -161,20 +161,20 @@ const MessageList: React.FC = () => {
                 >
                   {/* Message tail/arrow */}
                   <div 
-                    className={`absolute w-3 h-3 bottom-1 ${
+                    className={`absolute w-2 h-2 sm:w-3 sm:h-3 bottom-1 ${
                       message.sender === 'user' 
-                        ? '-right-1.5 bg-blue-600 transform rotate-45'
-                        : '-left-1.5 ' + (isDarkMode ? 'bg-gray-800' : 'bg-white') +
+                        ? '-right-1 sm:-right-1.5 bg-blue-600 transform rotate-45'
+                        : '-left-1 sm:-left-1.5 ' + (isDarkMode ? 'bg-gray-800' : 'bg-white') +
                           ' transform rotate-45 border-b border-r ' + (isDarkMode ? 'border-gray-700' : 'border-gray-200')
                     }`}
                   ></div>
                   
-                  <div className="whitespace-pre-wrap">{message.text}</div>
+                  <div className="whitespace-pre-wrap text-sm sm:text-base">{message.text}</div>
                 </div>
                 
                 {/* Timestamp below message */}
                 <div 
-                  className={`text-xs mt-1 ${
+                  className={`text-[10px] sm:text-xs mt-1 ${
                     message.sender === 'user' 
                       ? 'text-gray-500 dark:text-gray-400 text-right mr-1' 
                       : 'text-gray-500 dark:text-gray-400 text-left ml-1'
@@ -194,13 +194,13 @@ const MessageList: React.FC = () => {
               className="flex items-end gap-2"
             >
               {/* AI avatar for typing indicator */}
-              <div className="flex-shrink-0 flex items-center justify-center h-9 w-9 rounded-full bg-indigo-100 text-indigo-600 dark:bg-indigo-900 dark:text-indigo-200 shadow-sm border border-indigo-200 dark:border-indigo-700">
-                <span className="text-base">{getAIIcon()}</span>
+              <div className="flex-shrink-0 flex items-center justify-center h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-indigo-100 text-indigo-600 dark:bg-indigo-900 dark:text-indigo-200 shadow-sm border border-indigo-200 dark:border-indigo-700">
+                <span className="text-sm sm:text-base">{getAIIcon()}</span>
               </div>
               
-              <div className="flex flex-col max-w-[85%]">
+              <div className="flex flex-col max-w-[80%] sm:max-w-[85%]">
                 <div 
-                  className={`rounded-2xl p-3 shadow-md max-w-[200px] ${
+                  className={`rounded-2xl p-2 sm:p-3 shadow-md max-w-[160px] sm:max-w-[200px] ${
                     isDarkMode 
                       ? 'bg-gray-800 text-gray-200 border border-gray-700 rounded-bl-md' 
                       : 'bg-white text-gray-800 border border-gray-200 rounded-bl-md'
@@ -209,11 +209,11 @@ const MessageList: React.FC = () => {
                   <Lottie
                     animationData={typingAnimation}
                     loop
-                    style={{ width: 60, height: 30 }}
+                    style={{ width: 50, height: 25, margin: '0 auto' }}
                   />
                 </div>
                 <div 
-                  className="text-xs mt-1 text-gray-500 dark:text-gray-400 text-left ml-1"
+                  className="text-[10px] sm:text-xs mt-1 text-gray-500 dark:text-gray-400 text-left ml-1"
                 >
                   typing...
                 </div>
