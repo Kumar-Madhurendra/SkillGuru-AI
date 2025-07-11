@@ -1,4 +1,4 @@
-# Auro Education AI Chat Application
+# SkillGuru AI Chat Application
 
 ## Overview
 
